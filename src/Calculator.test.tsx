@@ -18,4 +18,25 @@ describe("<Calculator />", () => {
 
     expect(rows).toHaveLength(4);
   });
+
+  it("shows calculation operators", () => {
+    render(<Calculator />);
+    const calcOperators = ["+", "-", "×", "÷"];
+
+    calcOperators.forEach((operator) => {
+      expect(screen.getByText(operator.toString())).toBeInTheDocument();
+    });
+  });
+
+  it("renders equal", () => {
+    render(<Calculator />);
+    const equalSign = "=";
+    expect(screen.getByText(equalSign)).toBeInTheDocument();
+  });
+
+  it("renders clear sign", () => {
+    render(<Calculator />);
+    const clear = "C";
+    expect(screen.getByText(clear)).toBeInTheDocument();
+  });
 });
