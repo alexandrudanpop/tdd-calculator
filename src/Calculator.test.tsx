@@ -39,4 +39,14 @@ describe("<Calculator />", () => {
     const clear = "C";
     expect(screen.getByText(clear)).toBeInTheDocument();
   });
+
+  it("renders an input", () => {
+    render(<Calculator />);
+    expect(screen.getByPlaceholderText("calculate")).toBeInTheDocument();
+  });
+
+  it("calculator input is disabled", () => {
+    render(<Calculator />);
+    expect(screen.getByPlaceholderText("calculate")).toBeDisabled();
+  });
 });
