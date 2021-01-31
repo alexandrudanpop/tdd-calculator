@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import React from "react";
 import Calculator from "./Calculator";
 
@@ -48,5 +48,41 @@ describe("<Calculator />", () => {
   it("calculator input is disabled", () => {
     render(<Calculator />);
     expect(screen.getByPlaceholderText("calculate")).toBeDisabled();
+  });
+
+  it("displays users inputs", async () => {
+    render(<Calculator />);
+    const one = screen.getByText("1");
+    const two = screen.getByText("2");
+    const plus = screen.getByText("+");
+    fireEvent.click(one);
+    fireEvent.click(plus);
+    fireEvent.click(two);
+
+    const result = await screen.findByPlaceholderText("calculate");
+    // @ts-ignore
+    expect(result.value).toBe("1+2");
+  });
+
+  it("displays multiple users inputs", async () => {
+    render(<Calculator />);
+    const one = screen.getByText("1");
+    const two = screen.getByText("2");
+    const three = screen.getByText("3");
+    const five = screen.getByText("5");
+    const divide = screen.getByText("÷");
+    const mul = screen.getByText("×");
+    const minus = screen.getByText("-");
+    fireEvent.click(three);
+    fireEvent.click(mul);
+    fireEvent.click(two);
+    fireEvent.click(minus);
+    fireEvent.click(one);
+    fireEvent.click(divide);
+    fireEvent.click(five);
+
+    const result = await screen.findByPlaceholderText("calculate");
+    // @ts-ignore
+    expect(result.value).toBe("3×2-1÷5");
   });
 });
