@@ -4,8 +4,26 @@ const rows = [[7, 8, 9], [4, 5, 6], [1, 2, 3], [0]];
 const calcOperators = ["+", "-", "×", "÷"];
 const equalSign = "=";
 const clear = "C";
+
+const calculateExpression = (expression: string) => {
+  const mulRegex = /×/g;
+  const divRegex = /÷/g;
+
+  const toEvaluate = expression.replace(mulRegex, "*").replace(divRegex, "/");
+
+  // todo - refactor eval later
+  const result = eval(toEvaluate);
+  return result;
+};
+
 const Calculator = () => {
   const [value, setValue] = useState("");
+
+  const calculate = () => {
+    const results = calculateExpression(value);
+    setValue(results);
+  };
+
   return (
     <div className="calculator">
       <h1>Calculator</h1>
@@ -29,7 +47,7 @@ const Calculator = () => {
                     {n}
                   </button>
                 ))}
-                {i === 3 && <button>{equalSign}</button>}
+                {i === 3 && <button onClick={calculate}>{equalSign}</button>}
               </div>
             </Fragment>
           );
