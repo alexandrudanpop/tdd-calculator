@@ -185,4 +185,16 @@ describe("calculateExpression", () => {
     expect(calculateExpression("1÷0")).toBe(undefined);
     expect(errorSpy).toHaveBeenCalledTimes(1);
   });
+
+  it("handles multiple operations", () => {
+    expect(calculateExpression("1÷1×2×2+3×22")).toBe(70);
+  });
+
+  it("handles trailing operator", () => {
+    expect(calculateExpression("1÷1×2×2+3×22+")).toBe(70);
+  });
+
+  it("handles empty expression", () => {
+    expect(calculateExpression("")).toBe("");
+  });
 });
