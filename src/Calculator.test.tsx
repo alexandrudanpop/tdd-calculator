@@ -85,4 +85,52 @@ describe("<Calculator />", () => {
     // @ts-ignore
     expect(result.value).toBe("3×2-1÷5");
   });
+
+  it("calculate based on users inputs", async () => {
+    render(<Calculator />);
+    const one = screen.getByText("1");
+    const two = screen.getByText("2");
+    const plus = screen.getByText("+");
+    const equal = screen.getByText("=");
+    fireEvent.click(one);
+    fireEvent.click(plus);
+    fireEvent.click(two);
+    fireEvent.click(equal);
+
+    const result = await screen.findByPlaceholderText("calculate");
+
+    expect(
+      (result as HTMLElement & {
+        value: string;
+      }).value
+    ).toBe("3");
+  });
+
+  it("calculate based on multiple users inputs", async () => {
+    render(<Calculator />);
+    const one = screen.getByText("1");
+    const two = screen.getByText("2");
+    const three = screen.getByText("3");
+    const five = screen.getByText("5");
+    const divide = screen.getByText("÷");
+    const mul = screen.getByText("×");
+    const minus = screen.getByText("-");
+    const equal = screen.getByText("=");
+
+    fireEvent.click(three);
+    fireEvent.click(mul);
+    fireEvent.click(two);
+    fireEvent.click(minus);
+    fireEvent.click(one);
+    fireEvent.click(divide);
+    fireEvent.click(five);
+    fireEvent.click(equal);
+
+    const result = await screen.findByPlaceholderText("calculate");
+    expect(
+      (result as HTMLElement & {
+        value: string;
+      }).value
+    ).toBe("5.8");
+  });
 });
