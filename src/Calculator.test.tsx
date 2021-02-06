@@ -1,6 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import React from "react";
-import Calculator from "./Calculator";
+import Calculator, { calculateExpression } from "./Calculator";
 
 describe("<Calculator />", () => {
   it("shows numbers", () => {
@@ -152,5 +152,37 @@ describe("<Calculator />", () => {
         value: string;
       }).value
     ).toBe("");
+  });
+});
+
+describe("calculateExpression", () => {
+  it("correctly computes for 2 numbers with +", () => {
+    expect(calculateExpression("1+1")).toBe(2);
+    expect(calculateExpression("10+10")).toBe(20);
+    expect(calculateExpression("11+345")).toBe(356);
+  });
+
+  it("correctly substracts 2 numbers", () => {
+    expect(calculateExpression("1-1")).toBe(0);
+    expect(calculateExpression("10-1")).toBe(9);
+    expect(calculateExpression("11-12")).toBe(-1);
+  });
+
+  it("correctly multiples 2 numbers", () => {
+    expect(calculateExpression("1×1")).toBe(1);
+    expect(calculateExpression("10×0")).toBe(0);
+    expect(calculateExpression("11×-12")).toBe(-132);
+  });
+
+  it("correctly divides 2 numbers", () => {
+    expect(calculateExpression("1÷1")).toBe(1);
+    expect(calculateExpression("10÷2")).toBe(5);
+    expect(calculateExpression("144÷12")).toBe(12);
+  });
+
+  it("division by 0 returns undefined and logs exception", () => {
+    const errorSpy = jest.spyOn(console, "error");
+    expect(calculateExpression("1÷0")).toBe(undefined);
+    expect(errorSpy).toHaveBeenCalledTimes(1);
   });
 });
